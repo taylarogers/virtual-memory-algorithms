@@ -3,7 +3,22 @@ from random import seed
 from random import randint
 
 def FIFO(size, pages):
-    return("FIFO")
+    frames = []
+    pageFaults = 0
+    
+    for page in pages:
+        if frames.count(page) == 0:
+            pageFaults += 1
+
+            if len(frames) < size:
+                frames.append(page)
+            else:
+                frames.pop(0)
+                frames.append(page)
+        else:
+            continue
+
+    return(pageFaults)
 
 def LRU(size, pages):
     return("LRU")
@@ -12,7 +27,7 @@ def OPT(size, pages):
     return("OPT")
 
 def main():
-    numPages = 50
+    numPages = 7
     pages = []
 
     for i in range(numPages):
@@ -20,6 +35,7 @@ def main():
 
     size = int(sys.argv[1])
 
+    print(pages)
     print('FIFO:', FIFO(size, pages), 'page faults.')
     print('LRU:', LRU(size, pages), 'page faults.')
     print('OPT:', OPT(size, pages), 'page faults.')
