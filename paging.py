@@ -21,13 +21,39 @@ def FIFO(size, pages):
     return(pageFaults)
 
 def LRU(size, pages):
-    return("LRU")
+    frames = []
+    pageFaults = 0
+    usedTime = []
+
+    for page in pages:
+        if frames.count(page) == 0:
+            pageFaults += 1
+
+            for i in range(len(frames)):
+                usedTime[i] += 1
+
+            if len(frames) < size:
+                frames.append(page)
+                usedTime.append(0)
+            else:
+                frames.pop(usedTime.index(max(usedTime)))
+                usedTime.pop(usedTime.index(max(usedTime)))                
+                
+                frames.append(page)
+                usedTime.append(0)
+        else:
+            for i in range(len(frames)):
+                usedTime[i] += 1
+
+            usedTime[frames.index(page)] = 0
+        
+    return(pageFaults)
 
 def OPT(size, pages):
     return("OPT")
 
 def main():
-    numPages = 7
+    numPages = 20
     pages = []
 
     for i in range(numPages):
