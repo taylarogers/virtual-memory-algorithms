@@ -50,7 +50,32 @@ def LRU(size, pages):
     return(pageFaults)
 
 def OPT(size, pages):
-    return("OPT")
+    frames = []
+    pageFaults = 0
+
+    for page in pages[:]:
+        if frames.count(page) == 0:
+            pageFaults += 1
+            pages.pop(0)
+
+            if len(frames) < size:
+                frames.append(page)
+            else:
+                nextOccurances = []
+
+                for i in range(size):
+                    if pages.count(frames[i]) != 0:
+                        nextOccurances.append(pages.index(frames[i]))
+                    else:
+                        nextOccurances.append(10000000000)
+                
+                frames.pop(nextOccurances.index(max(nextOccurances)))
+                frames.append(page)
+        else:
+            pages.pop(0)
+            continue
+    
+    return(pageFaults)
 
 def main():
     numPages = 20
